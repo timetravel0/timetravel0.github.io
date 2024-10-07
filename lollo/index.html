@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portale Sport</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        /* Stili esistenti rimangono invariati */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            display: flex;
+            flex: 1;
+        }
+        .menu-laterale {
+            width: 250px;
+            background-color: #f5f5f5;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .menu-laterale h2 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        .menu-laterale ul {
+            list-style: none;
+            padding: 0;
+        }
+        .menu-laterale li {
+            margin: 10px 0;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .menu-laterale li:hover {
+            background-color: #e0e0e0;
+        }
+        .menu-laterale li.active {
+            background-color: #007bff;
+            color: white;
+        }
+        .contenuto-centrale {
+            flex-grow: 1;
+            padding: 20px 40px;
+        }
+        
+        /* Stili aggiornati per il container delle immagini */
+        .immagine-container {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            margin: 20px 0;
+            position: relative;
+            cursor: pointer;
+        }
+        .immagine-campo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        /* Stili per il popup */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .popup-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+        .close-popup {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        /* Altri stili esistenti rimangono invariati */
+        .sport-info {
+            display: none;
+        }
+        .sport-info.active {
+            display: block;
+        }
+        .statistiche {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .stat-box {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex: 1;
+            margin: 10px;
+            min-width: 200px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="menu-laterale">
+            <h2>Sport</h2>
+            <ul>
+                <li onclick="showSport('calcio')">Calcio</li>
+                <li onclick="showSport('nuoto')">Nuoto</li>
+                <li onclick="showSport('judo')">Judo</li>
+                <li onclick="showSport('basket')">Basket</li>
+                <li onclick="showSport('tennis')">Tennis</li>
+                <li onclick="showSport('corsa')">Corsa</li>
+                <li onclick="showSport('pallavolo')">Pallavolo</li>
+                <li onclick="showSport('vela')">Barca a vela</li>
+            </ul>
+        </div>
+
+        <div class="contenuto-centrale">
+            <div id="calcio" class="sport-info active">
+                <h2>Calcio</h2>
+                <div class="immagine-container" onclick="openPopup('assets/campo_calcio.jpg')">
+                    <img src="assets/campo_calcio.jpg" alt="Campo da calcio" class="immagine-campo animate__animated animate__fadeIn">
+                </div>
+                
+                <p>Il calcio è uno degli sport più popolari al mondo. Si gioca su un campo rettangolare di erba con due porte ai lati opposti.</p>
+                
+                <h3>Regole principali</h3>
+                <ul>
+                    <li>Ogni squadra è composta da 11 giocatori, incluso il portiere</li>
+                    <li>La partita è divisa in due tempi da 45 minuti ciascuno</li>
+                    <li>L'obiettivo è segnare più gol della squadra avversaria</li>
+                </ul>
+
+                <div class="statistiche">
+                    <div class="stat-box">
+                        <h4>Giocatori Professionisti</h4>
+                        <p>265 milioni+</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Paesi FIFA</h4>
+                        <p>211</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Coppa del Mondo dal</h4>
+                        <p>1930</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="nuoto" class="sport-info">
+                <h2>Nuoto</h2>
+                <div class="immagine-container" onclick="openPopup('assets/piscina.jpg')">
+                    <img src="assets/piscina.jpg" alt="Piscina" class="immagine-campo animate__animated animate__fadeIn">
+				</div>
+                <p>Il nuoto è uno sport acquatico che coinvolge il movimento del corpo attraverso l'acqua usando braccia e gambe.</p>
+                
+                <h3>Stili principali</h3>
+                <ul>
+                    <li>Stile libero</li>
+                    <li>Dorso</li>
+                    <li>Rana</li>
+                    <li>Farfalla</li>
+                </ul>
+
+                <div class="statistiche">
+                    <div class="stat-box">
+                        <h4>Calorie bruciate/ora</h4>
+                        <p>400-600</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Record mondiale 100m</h4>
+                        <p>46.91 secondi</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Sport Olimpico dal</h4>
+                        <p>1896</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="judo" class="sport-info">
+                <h2>Judo</h2>
+                <div class="immagine-container" onclick="openPopup('assets/tatami.jpg')">
+                    <img src="assets/tatami.jpg" alt="Tatami" class="immagine-campo animate__animated animate__fadeIn">
+				</div>				
+                <p>Il judo è un'arte marziale e sport olimpico che enfatizza le proiezioni e il combattimento a terra.</p>
+                
+                <h3>Cinture e gradi</h3>
+                <ul>
+                    <li>Bianca (principiante)</li>
+                    <li>Gialla, Arancione, Verde, Blu, Marrone</li>
+                    <li>Nera (dan, esperto)</li>
+                </ul>
+
+                <div class="statistiche">
+                    <div class="stat-box">
+                        <h4>Origine</h4>
+                        <p>Giappone, 1882</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Praticanti nel mondo</h4>
+                        <p>40 milioni+</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Sport Olimpico dal</h4>
+                        <p>1964</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="basket" class="sport-info">
+                <h2>Basket</h2>
+                <div class="immagine-container" onclick="openPopup('assets/campo_basket.jpg')">
+                    <img src="assets/campo_basket.jpg" alt="Basket" class="immagine-campo animate__animated animate__fadeIn">
+				</div>								
+                <p>Il basket è uno sport di squadra dove due team cercano di segnare punti lanciando una palla in un canestro.</p>
+                
+                <h3>Punteggi</h3>
+                <ul>
+                    <li>Tiro libero: 1 punto</li>
+                    <li>Tiro normale: 2 punti</li>
+                    <li>Tiro da tre: 3 punti</li>
+                </ul>
+
+                <div class="statistiche">
+                    <div class="stat-box">
+                        <h4>Giocatori per squadra</h4>
+                        <p>5</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Durata partita NBA</h4>
+                        <p>48 minuti</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Inventato nel</h4>
+                        <p>1891</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tennis" class="sport-info">
+                <h2>Tennis</h2>
+                <div class="immagine-container" onclick="openPopup('assets/campo_tennis.jpg')">
+                    <img src="assets/campo_tennis.jpg" alt="Tennis" class="immagine-campo animate__animated animate__fadeIn">
+				</div>							
+                <p>Il tennis è uno sport che può essere giocato singolarmente o in doppio, utilizzando racchette per colpire una palla oltre la rete.</p>
+                
+                <h3>Punteggio</h3>
+                <ul>
+                    <li>15 - 30 - 40 - Game</li>
+                    <li>6 game per vincere un set</li>
+                    <li>Tie-break in caso di 6-6</li>
+                </ul>
+
+                <div class="statistiche">
+                    <div class="stat-box">
+                        <h4>Grand Slam</h4>
+                        <p>4 tornei</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Velocità servizio record</h4>
+                        <p>263.4 km/h</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Sport Olimpico dal</h4>
+                        <p>1896</p>
+                    </div>
+                </div>
+            </div>
+
+<div id="corsa" class="sport-info">
+                <h2>Corsa</h2>
+                <div class="immagine-container" onclick="openPopup('assets/pista_atletica.jpg')">
+                    <img src="assets/pista_atletica.jpg" alt="Pista Atletica" class="immagine-campo animate__animated animate__fadeIn">
+				</div>									
+                <p>La corsa è uno degli sport più antichi e naturali, che coinvolge tutto il corpo e offre numerosi benefici per la salute.</p>
+                
+                <h3>Tipologie principali</h3>
+                <ul>
+                    <li>Corsa su strada</li>
+                    <li>Trail running</li>
+                    <li>Corsa su pista</li>
+                    <li>Cross country</li>
+                </ul>
+
+                <div class="statistiche">
+                    <div class="stat-box">
+                        <h4>Record Maratona</h4>
+                        <p>2:01:09</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Calorie bruciate/ora</h4>
+                        <p>600-800</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Distanza Maratona</h4>
+                        <p>42.195 km</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aggiunta della sezione Pallavolo -->
+            <div id="pallavolo" class="sport-info">
+                <h2>Pallavolo</h2>
+                <div class="immagine-container" onclick="openPopup('assets/campo_pallavolo.jpg')">
+                    <img src="assets/campo_pallavolo.jpg" alt="Campo pallavolo" class="immagine-campo animate__animated animate__fadeIn">
+				</div>										
+                <p>La pallavolo è uno sport di squadra dove due team si sfidano colpendo una palla al di sopra di una rete, cercando di farla cadere nel campo avversario.</p>
+                
+                <h3>Regole fondamentali</h3>
+                <ul>
+                    <li>6 giocatori per squadra in campo</li>
+                    <li>3 tocchi massimi per squadra</li>
+                    <li>Rotazione dei giocatori</li>
+                    <li>Set vinto a 25 punti</li>
+                </ul>
+
+                <div class="statistiche">
+                    <div class="stat-box">
+                        <h4>Velocità massima schiacciata</h4>
+                        <p>130 km/h</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Altezza rete maschile</h4>
+                        <p>2.43 m</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Sport Olimpico dal</h4>
+                        <p>1964</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aggiunta della sezione Barca a vela -->
+            <div id="vela" class="sport-info">
+                <h2>Barca a vela</h2>
+                <div class="immagine-container" onclick="openPopup('assets/barca_a_vela.jpg')">
+                    <img src="assets/barca_a_vela.jpg" alt="Barca a vela" class="immagine-campo animate__animated animate__fadeIn">
+				</div>												
+                <p>La vela è uno sport nautico che utilizza la forza del vento per muovere l'imbarcazione, combinando abilità tecniche, conoscenza del mare e strategia.</p>
+                
+                <h3>Classi principali</h3>
+                <ul>
+                    <li>Laser (ILCA)</li>
+                    <li>470</li>
+                    <li>49er</li>
+                    <li>Nacra 17</li>
+                </ul>
+
+                <div class="statistiche">
+                    <div class="stat-box">
+                        <h4>Record velocità vela</h4>
+                        <p>121.21 km/h</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Sport Olimpico dal</h4>
+                        <p>1896</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Classi Olimpiche</h4>
+                        <p>10</p>
+                    </div>
+                </div>
+            </div>        </div>
+    </div>
+
+    <div class="popup-overlay" onclick="closePopup()">
+        <span class="close-popup">&times;</span>
+        <div class="popup-content">
+            <img src="" alt="Immagine ingrandita">
+        </div>
+    </div>	
+
+    <footer>
+        Programma ideato da Lorenzo Lando
+    </footer>
+
+    <script>
+        function showSport(sportId) {
+            // Rimuovi la classe active da tutti gli elementi
+            $('.sport-info').removeClass('active');
+            $('.menu-laterale li').removeClass('active');
+            
+            // Aggiungi la classe active all'elemento selezionato
+            $(`#${sportId}`).addClass('active');
+            $(`.menu-laterale li[onclick="showSport('${sportId}')"]`).addClass('active');
+        }
+
+        function openPopup(imageSrc) {
+            const popup = $('.popup-overlay');
+            const popupImg = popup.find('img');
+            popupImg.attr('src', imageSrc);
+            popup.css('display', 'flex').hide().fadeIn();
+        }
+
+        function closePopup() {
+            $('.popup-overlay').fadeOut();
+        }
+
+        // Chiudi il popup quando si preme ESC
+        $(document).keydown(function(e) {
+            if (e.key === "Escape") {
+                closePopup();
+            }
+        });
+    </script>
+</body>
+</html>
