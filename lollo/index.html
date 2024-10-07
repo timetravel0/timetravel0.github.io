@@ -19,6 +19,7 @@
         .container {
             display: flex;
             flex: 1;
+            flex-wrap: wrap;
         }
         .menu-laterale {
             width: 250px;
@@ -34,6 +35,8 @@
         .menu-laterale ul {
             list-style: none;
             padding: 0;
+            display: flex;
+            flex-direction: column;
         }
         .menu-laterale li {
             margin: 10px 0;
@@ -51,7 +54,7 @@
         }
         .contenuto-centrale {
             flex-grow: 1;
-            padding: 20px 40px;
+            padding: 20px;
         }
         
         /* Stili aggiornati per il container delle immagini */
@@ -136,6 +139,48 @@
             text-align: center;
             padding: 10px;
             margin-top: auto;
+        }
+
+        /* Media query per dispositivi mobili */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .menu-laterale {
+                width: 100%;
+                padding: 10px;
+                box-shadow: none;
+            }
+            .menu-laterale ul {
+                flex-direction: row;
+                overflow-x: auto;
+                white-space: nowrap;
+                padding: 10px 0;
+                scroll-behavior: smooth;
+            }
+            .menu-laterale li {
+                margin: 0 5px;
+                padding: 6px 10px;
+                white-space: nowrap;
+            }
+            .contenuto-centrale {
+                padding: 10px;
+            }
+            .immagine-container {
+                height: 200px;
+            }
+            .stat-box {
+                min-width: calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stat-box {
+                min-width: 100%;
+            }
+            .menu-laterale h2 {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
@@ -409,7 +454,15 @@
         <div class="popup-content">
             <img src="" alt="Immagine ingrandita">
         </div>
-    </div>	
+    </div>	        </div>
+    </div>
+
+    <div class="popup-overlay" onclick="closePopup()">
+        <span class="close-popup">&times;</span>
+        <div class="popup-content">
+            <img src="" alt="Immagine ingrandita">
+        </div>
+    </div>    
 
     <footer>
         Programma ideato da Lorenzo Lando
